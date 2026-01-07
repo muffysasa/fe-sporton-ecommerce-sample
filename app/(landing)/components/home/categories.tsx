@@ -1,0 +1,52 @@
+import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
+import { MdOutlineSportsTennis } from "react-icons/md";
+import { MdSportsBasketball } from "react-icons/md";
+import { MdOutlineSportsSoccer } from "react-icons/md";
+import { TbYoga } from "react-icons/tb";
+import { CgGym } from "react-icons/cg";
+import { LiaRunningSolid } from "react-icons/lia";
+
+const categoryList = [
+  { name: "Running", Icon: LiaRunningSolid },
+  { name: "Tennis", Icon: MdOutlineSportsTennis },
+  { name: "Basketball", Icon: MdSportsBasketball },
+  { name: "Football", Icon: MdOutlineSportsSoccer },
+  { name: "Yoga", Icon: TbYoga },
+  { name: "Gym", Icon: CgGym },
+];
+
+const CategoriesSection = () => {
+  return (
+    <section id="category-section" className="container mx-auto pb-20 px-8">
+      <div className="flex justify-between items-center">
+        <h2 className="font-bold text-2xl">Browse By Categories</h2>
+        <Link href="#" className="flex gap-2 text-primary font-medium">
+          <span className="self-center">See All Categories</span>
+          <FiArrowRight className="self-center" />
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-6 gap-12 mt-8">
+        {categoryList.map((category, index) => {
+          const Icon = category.Icon;
+          return (
+            <div
+              key={index}
+              className="rounded-lg bg-gradient-to-r from-[#F1F1F1] to-[#F7F7F7] w-full aspect-square flex justify-center"
+            >
+              <div className="self-center text-center">
+                <Icon size={86} className="mx-auto mb-[10px] text-dark" />
+                <div className="text-dark-alternate font-medium text-xl">
+                  {category.name}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+export default CategoriesSection;
