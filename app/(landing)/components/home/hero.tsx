@@ -35,7 +35,7 @@ const HeroSection = () =>{
             width={720}
             height={920}
             alt="images hero"             
-            className="absolute -right-5 top-1/2 -translate-y-1/2" />
+            className="absolute -right-30 top-1/2 -translate-y-1/2" />
         </div>
         <Image src= "image/img-ornament-hero.svg" 
             width={420}
