@@ -4,55 +4,26 @@ import Image from "next/image";
 import { FiArrowDownRight, FiTrash2 } from "react-icons/fi";
 import Button from "./button";
 import { useRouter } from "next/navigation";
-
-export const cartList = [
-  {
-    id:"prod12345",
-    name: "SportsOn Product 1",
-    category: "Running",
-    price: 450000,
-    qty:1,
-    imgUrl: "product-1.svg",
-  },
-  {
-    id:"prod23456",
-    name: "SportsOn Product 2",
-    category: "Running",
-    price: 250000,
-    qty:3,
-    imgUrl: "product-2.svg",
-  },
-  {
-    name: "SportsOn Product 3",
-    category: "Running",
-    price: 230000,
-    qty:2,
-    imgUrl: "product-3.svg",
-  },
-  {
-    name: "SportsOn Product 3",
-    category: "Running",
-    price: 230000,
-    qty:2,
-    imgUrl: "product-3.svg",
-  },
- ];
+import { useCartStore } from "@/app/hooks/use-cart-store";
+import { getImageUrl } from "@/app/lib/api";
 
 const CartPopup = () => {
     const {push} =useRouter();
+    const {items, removeItem} = useCartStore()
 
-    const totalPrice = cartList.reduce((total, item) => total + item.price * item.qty, 0 );
+    const totalPrice = items.reduce((total, item) => total + item.price * item.qty, 0 );
+    console.log("cart item", items);
     const handleCheckout = ()=>{
         push("/checkout")
     }
 
     return ( <div className="absolute bg-white right-2 top-8 shadow-xl shadow-black/10 border border-gray-200 w-90 z-10">
         <div className="p-4 border-b border-gray-200 font-bold text-center">Shopping Cart</div>
-        {cartList.map((item, index) => (
+        {items.length ? items.map((item, index) => (
             <div className="border-b border-gray-200 p-4 flex gap-3" key={index}>
                 <div className="bg-primary-light aspect-square w-16 flex justify-center items-center">
                     <Image 
-                    src={`/image/products/${item.imgUrl}`}
+                    src={getImageUrl(item.imageUrl)}
                     width={63}
                     height={63}
                     alt={item.name}
@@ -68,11 +39,13 @@ const CartPopup = () => {
                 <Button 
                 size="small" 
                 variant="ghost" 
-                className="w-7 h-7 p-0! self-center ml-auto"> 
+                className="w-7 h-7 p-0! self-center ml-auto" onClick={() =>removeItem(item._id)}> 
                 <FiTrash2/>
                 </Button>
             </div>
-        ))}
+        )): (
+            <div className="text-center opacity-50 py-5">Your Sopping Cart is Empty</div>
+        )}
         <div className="border-t border-gray-200 p-4">
             <div className="flex justify-between font-semibold">
                 <div className="font-semibold text-sm">Total</div>

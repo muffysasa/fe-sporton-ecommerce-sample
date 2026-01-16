@@ -6,6 +6,9 @@ import { MdOutlineSportsSoccer } from "react-icons/md";
 import { TbYoga } from "react-icons/tb";
 import { CgGym } from "react-icons/cg";
 import { LiaRunningSolid } from "react-icons/lia";
+import { Category } from "@/app/types";
+import Image from "next/image";
+import { getImageUrl } from "@/app/lib/api";
 
 const categoryList = [
   { name: "Running", Icon: LiaRunningSolid },
@@ -16,7 +19,12 @@ const categoryList = [
   { name: "Gym", Icon: CgGym },
 ];
 
-const CategoriesSection = () => {
+
+type TCategoriesProps = {
+  categories: Category[];
+}
+
+const CategoriesSection = ({categories}: TCategoriesProps) => {
   return (
     <section id="category-section" className="container mx-auto pb-20 px-8">
       <div className="flex justify-between items-center">
@@ -28,15 +36,18 @@ const CategoriesSection = () => {
       </div>
 
       <div className="grid grid-cols-6 gap-12 mt-8">
-        {categoryList.map((category, index) => {
-          const Icon = category.Icon;
+        {categories.map((category) => {
           return (
             <div
-              key={index}
               className="rounded-lg bg-gradient-to-r from-[#F1F1F1] to-[#F7F7F7] w-full aspect-square flex justify-center"
+              key={category._id}
             >
               <div className="self-center text-center">
-                <Icon size={86} className="mx-auto mb-[10px] text-dark" />
+                <Image src={getImageUrl(category.imageUrl)}
+                width={86} 
+                height="86" 
+                alt={category.name}
+                className="mx-auto mb-[10px] text-dark" />
                 <div className="text-dark-alternate font-medium text-xl">
                   {category.name}
                 </div>
