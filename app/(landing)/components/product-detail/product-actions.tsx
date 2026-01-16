@@ -11,7 +11,7 @@ type TProductActionsProps = {
     stock: number;
 };
 
-const ProductActions = ({product, stock}:TProductActionsProp) => {
+const ProductActions = ({product, stock}:TProductActionsProps) => {
     const {addItem}= useCartStore()
     const {push} =useRouter();
     const [qty, setQty] = useState(1);
