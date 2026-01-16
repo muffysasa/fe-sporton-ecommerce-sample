@@ -19,7 +19,7 @@ const ProductsSection = ({ products }: TProductsProps) => {
   const handleAddtoCart = (e: React.MouseEvent, product:Product) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(product);
+    addItem(product)
   }
   return (
     <section id="products-section" className="container mx-auto mt-32 mb-52">
