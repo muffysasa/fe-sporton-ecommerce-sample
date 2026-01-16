@@ -18,7 +18,7 @@ interface CartStore{
     customerInfo: CustomerInfo | null;
     items: CartItem[];
     setCustomerInfo: (info: CustomerInfo) => void
-    addItem: (product: Product, qty:number) => void;
+    addItem: (product: Product, qty?:number) => void;
     removeItem: (productId: string) => void;
     reset:() => void;
 }
