@@ -16,9 +16,6 @@ const PaymentSteps = () =>{
     const {items, customerInfo, reset} =useCartStore()
     const [file,setFile] = useState<File | null>();
 
-    const uploadAndConfirm =() => {
-        push("/order-status/2123345")
-    };
     const totalPrice = items.reduce((total, item) => 
         total + item.price * item.qty, 0 );
     
@@ -45,13 +42,12 @@ const PaymentSteps = () =>{
                 formData.append("totalPayment", totalPrice!.toString());
 
                 const res = await transactionCheckout(formData);
-
-                
                 
 
-                alert('Transaction created successfully');
-                reset();
-                push(`/order-status/${res._id}`);
+                
+            alert('Transaction created successfully');
+            push(`/order-status/${res._id}`);
+            reset();
                 
                 
                 

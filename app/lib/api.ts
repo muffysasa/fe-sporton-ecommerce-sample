@@ -3,19 +3,18 @@ import { cache } from "react";
 export async function fetchAPI<T>(
     endpoint: string,
     options?: RequestInit
-): Promise <T> {
+): Promise<T> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
         ...options,
         cache: options?.cache || "no-store",
     })
 
     if (!res.ok) {
-        let errorMessage =`Failed to fetch data from ${endpoint}`;
+        let errorMessage = `Failed to fetch data from ${endpoint}`;
         try{
             const errorData = await res.json();
             errorMessage = errorData.message || errorData.error || errorMessage;
-        }
-            catch(e) {
+        }   catch(e) {
                 console.log(e)
             }
         throw new Error(errorMessage);

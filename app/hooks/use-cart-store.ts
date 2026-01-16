@@ -41,14 +41,14 @@ export const useCartStore = create<CartStore>()(
                         item._id === product._id ? {...item, qty: item.qty +qty}: item)
                     })
                 } else{
-                    set({items: [...items, {...product, qty}]})
+                    set({items: [...items, {...product, qty}]});
                 }
             }, 
             removeItem: (productId) => {
                 
             set({items:get().items.filter((item) => item._id !== productId)})
             },
-            reset: () =>{
+            reset: () => {
                 set({items:[], customerInfo: null});
             },
         }),
