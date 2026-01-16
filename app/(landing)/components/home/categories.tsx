@@ -1,24 +1,8 @@
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
-import { MdOutlineSportsTennis } from "react-icons/md";
-import { MdSportsBasketball } from "react-icons/md";
-import { MdOutlineSportsSoccer } from "react-icons/md";
-import { TbYoga } from "react-icons/tb";
-import { CgGym } from "react-icons/cg";
-import { LiaRunningSolid } from "react-icons/lia";
 import { Category } from "@/app/types";
 import Image from "next/image";
 import { getImageUrl } from "@/app/lib/api";
-
-const categoryList = [
-  { name: "Running", Icon: LiaRunningSolid },
-  { name: "Tennis", Icon: MdOutlineSportsTennis },
-  { name: "Basketball", Icon: MdSportsBasketball },
-  { name: "Football", Icon: MdOutlineSportsSoccer },
-  { name: "Yoga", Icon: TbYoga },
-  { name: "Gym", Icon: CgGym },
-];
-
 
 type TCategoriesProps = {
   categories: Category[];

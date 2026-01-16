@@ -13,15 +13,16 @@ export async function fetchAPI<T>(
         let errorMessage =`Failed to fetch data from ${endpoint}`;
         try{
             const errorData = await res.json();
-            errorMessage = errorData.message || errorData.error || errorMessage;}
-            catch (e) {
-                console.log(e);
+            errorMessage = errorData.message || errorData.error || errorMessage;
+        }
+            catch(e) {
+                console.log(e)
             }
         throw new Error(errorMessage);
         }
         return res.json();
     }
 export function getImageUrl(path: string) {
-    if (path.startsWith('http')) return path;
-    return `${process.env.NEXT_PUBLIC_API_ROOT}/${path}`
+    if (path.startsWith("http")) return path;
+    return `${process.env.NEXT_PUBLIC_API_ROOT}/${path}`;
 }
