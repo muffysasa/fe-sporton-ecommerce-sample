@@ -1,4 +1,4 @@
-"use client";
+
 import { getTransactionById } from "@/app/services/transaction.services";
 import OrderRejected from "../../components/order-status/order-rejected";
 import OrderSubmitted from "../../components/order-status/order-submitted";
