@@ -10,7 +10,7 @@ type TProductModalProps = {
 
 const ProductModal = ({isOpen, onClose}: TProductModalProps) =>{
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const[imagePreview, setImagePreview] = useState<File | null>(null);
+    const[imagePreview, setImagePreview] = useState<string | null>(null);
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="Add New Product">
             <div className="flex flex-col gap-6">
