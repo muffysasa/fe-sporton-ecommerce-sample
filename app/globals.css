@@ -37,3 +37,17 @@ html {
 .input-group textarea{
   @apply px-4 py-2.5 bg-gray-100 w-full focus:border-gray-400 outline-none text-sm;
 }
+
+
+/*input si admin*/
+/*input group*/
+
+.input-group-admin label{
+  @apply text-xs mb-1;
+}
+
+.input-group-admin input,
+.input-group-admin select,
+.input-group textarea {
+  @apply px-4 py-3 w-full border border-gray-200 rounded-md focus:border-gray-500 outline-none text-sm;
+}
