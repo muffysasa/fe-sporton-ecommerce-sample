@@ -1,22 +1,16 @@
+import { getImageUrl } from "@/app/lib/api"
+import { Category } from "@/app/types"
 import PriceFormatter from "@/app/utils/price-formatter"
 import Image from "next/image"
 import { FiEdit2, FiTrash2 } from "react-icons/fi"
 
-const categoryData = [
-    {
-        name: "Kategori SportOn 1",
-        imageUrl: "/image/img-hero.png",
-        description: "bla blaa",      
-    },
-    {
-        name: "Kategori SportOn 2",
-        imageUrl: "/image/img-hero.png",
-        description: "bla blaa",         
-    },
-]
+type TCategoryTableProps = {
+    categories: Category[];
+    onEdit: (category: Category) => void;
+    onDelete: (id: string) => void;
+}
 
-
-const CategoryTable = () => {
+const CategoryTable = ({categories, onEdit, onDelete}: TCategoryTableProps) => {
     return (
         <div className="bg-white rouded-2xl border-gray-200">
             <table className="w-full text-left border-collapse">
@@ -28,13 +22,13 @@ const CategoryTable = () => {
                     </tr>
                 </thead>
                 <tbody className="">{
-                categoryData.map((data, index) =>(
+                categories.map((data, index) =>(
                     <tr key={index} className="border-b border-gray-200 last:border-b-0">
                         <td className="px-6 py-4 font-medium">
                         <div className="flex gap-2 items-center">
                             <div className="aspect-square bg-gray-100 rounded-md">
                             <Image 
-                            src={data.imageUrl} 
+                            src={getImageUrl(data.imageUrl)} 
                             width={52} height={52} 
                             alt={data.name} 
                             className="aspect-square object-contain"/>
@@ -48,10 +42,10 @@ const CategoryTable = () => {
                             </div>
                         </td>
                         <td className="px-3 py-8 items-center flex gap-2 text-gray-600">
-                            <button>
+                            <button onClick={() => onEdit?.(data)}>
                                 <FiEdit2 size={35} className="p-1.5 rounded hover:bg-primary cursor-pointer"/>
                             </button>
-                            <button>
+                            <button onClick={() => onDelete?.(data._id)}>
                                 <FiTrash2 size={35} className="p-1.5 rounded hover:bg-primary cursor-pointer"/>
                             </button>
                         </td>

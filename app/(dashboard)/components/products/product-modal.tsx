@@ -1,19 +1,135 @@
 import Button from "@/app/(landing)/components/ui/button";
 import Modal from "../ui/modal"
 import ImageUploadPreview from "../ui/image-upload-preview";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Category, Product } from "@/app/types";
+import { getAllCategories } from "@/app/services/category.service";
+import { createProduct, updateProduct } from "@/app/services/product.services";
+import { toast } from "react-toastify";
+import { getImageUrl } from "@/app/lib/api";
 
 type TProductModalProps = {
     isOpen: boolean;
     onClose: () => void;
+    onSuccess?:() => void;
+    product: Product| null;
 }
 
-const ProductModal = ({isOpen, onClose}: TProductModalProps) =>{
+type ProductFormData ={
+    name: string;
+    price: number;
+    stock: number;
+    categoryId: string;
+    description: string;
+}
+
+const ProductModal = ({isOpen, onClose, onSuccess, product}: TProductModalProps) =>{
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const[imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [formData, setFormData] =useState<ProductFormData>({
+        name: "",
+        price: 0,
+        stock: 0,
+        categoryId: "",
+        description: "",
+    });
+
+    const isEditMode = !!product;
+
+    const fetchCategories = async () => {
+        try {
+            const data = await getAllCategories();
+            setCategories(data)
+        } catch(error) {
+            console.error("Failes to fetch categories", error)
+        }
+    }
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,) => {
+        const {id, value} = e.target;
+        setFormData((prev) => ({...prev, [id]:value}));
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const data = new FormData();
+            data.append("name", formData.name);
+            data.append("price", formData.price.toString());
+            data.append("stock", formData.stock.toString());
+            data.append("price", formData.categoryId);
+            data.append("description", formData.description);
+
+            if (imageFile) {
+                data.append("image", imageFile)
+            }
+
+            if (isEditMode) {
+                await updateProduct(product._id, data)
+            } else {
+                await createProduct(data)
+            }
+
+            //Reset Form Data
+            setFormData({
+            name: "",
+            price: 0,
+            stock: 0,
+            categoryId: "",
+            description: "",
+             });
+        setImageFile(null);
+        setImagePreview(null);
+
+        toast.success(isEditMode ? "Update Product Successfully" : "Product Created Successfully")
+        
+        onSuccess?.();
+        onClose?.()
+
+        }catch(error){
+            console.error(isEditMode ? "Failed to Update Product" : "Failed to Create Product", 
+            error);
+            toast.error(isEditMode ? "Failed to Update Product" : "Failed to Create Product")
+
+        } finally {
+            setIsSubmitting(false)
+        }
+    };
+
+    useEffect(() => {
+        if (isEditMode && isOpen) {
+            setFormData({
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                categoryId: product.category._id,
+                stock: product.stock
+            });
+            setImagePreview(product.imageUrl ? getImageUrl(product.imageUrl): null)
+        } else if (isOpen) {
+             setFormData({
+            name: "",
+            price: 0,
+            stock: 0,
+            categoryId: "",
+            description: "",
+             });
+             setImageFile(null);
+             setImagePreview(null);
+        }
+    }, [isOpen, product]);
+
+    useEffect(() => {
+        fetchCategories()
+    }, [])
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose} title="Add New Product">
-            <div className="flex flex-col gap-6">
+        <Modal isOpen={isOpen} onClose={onClose} title={isEditMode ? " Edit Prodcut": "Add New Product"}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div className="flex gap-7 ">
                 <div className="min-w-[200px]">
                     <ImageUploadPreview 
@@ -26,10 +142,12 @@ const ProductModal = ({isOpen, onClose}: TProductModalProps) =>{
                 </div>
                 <div className="flex flex-col gap-4 w-full">
                 <div className="input-group-admin">
-                    <label htmlFor="name">Product Name</label>
+                    <label htmlFor="productName">Product Name</label>
                     <input type="text" 
                     id="name" 
-                    name="name" 
+                    name="name"
+                    value={formData.name} 
+                    onChange={handleChange}
                     placeholder="e. g. RunningShoes" />
                 </div>
                 
@@ -39,6 +157,8 @@ const ProductModal = ({isOpen, onClose}: TProductModalProps) =>{
                     <input type="number" 
                     id="price" 
                     name="price" 
+                    value={formData.price} 
+                    onChange={handleChange}
                     placeholder="e. g. 500000" />
                 </div>
                 <div >
@@ -47,29 +167,51 @@ const ProductModal = ({isOpen, onClose}: TProductModalProps) =>{
                     <input type="number" 
                     id="stock" 
                     name="stock" 
+                    value={formData.stock} 
+                    onChange={handleChange}
                     placeholder="e. g. 100" />
                 </div>
                 </div>
                 </div>
                 <div className="input-group-admin flex flex-col w-full">
                     <label htmlFor="category">Product Category</label>
-                    <select name="category" id="category">
+                    <select 
+                        name="categoryId" 
+                        id="categoryId"
+                        value={formData.categoryId} 
+                        onChange={handleChange}>
                         <option className="input-group-admin flex"
                         value="" disabled>Select Category
                         </option>
-                        <option value="running" >Running</option>
-                        <option value="football" >Football</option>
+                        {
+                            categories.map((category) => (
+                                <option value={category._id} key={category._id}>{category.name}</option>
+                            ))
+                        }
                     </select>
                 </div>
                 </div>
                 </div>
                 <div className="input-group-admin flex flex-col w-full">
                     <label htmlFor="description">Description</label>
-                    <textarea className="border rounded-xl border-gray-300 px-5 py-2" name="description" id="description" rows={7} placeholder="text your description product...">
+                    <textarea className="border rounded-xl border-gray-300 px-5 py-2" 
+                    name="description" 
+                    id="description" 
+                    rows={7} 
+                    value={formData.description} 
+                    onChange={handleChange}
+                    placeholder="text your description product...">
                     </textarea>
                 </div>  
-                <Button className="rounded-xl ml-auto mt-8">Create Product</Button>
-            </div>
+                <Button className="rounded-xl ml-auto mt-8" 
+                onClick={handleSubmit} 
+                disabled={isSubmitting}
+                type="submit">
+                    {
+                        isEditMode ? "Update Product" : " Create Product"
+                    }
+                    </Button>
+            </form>
         </Modal>
     )
 }

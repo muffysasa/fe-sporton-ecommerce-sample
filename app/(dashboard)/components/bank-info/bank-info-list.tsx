@@ -1,29 +1,19 @@
+import { Bank } from "@/app/types";
 import { FiCreditCard, FiEdit2, FiTrash2 } from "react-icons/fi"
 
-const bankData = [
-    {
-        bankName: "BCA",
-        accountNumber: 23234532,
-        accounName: "sahara",
-    },
-    {
-        bankName: "BRA",
-        accountNumber: 23234532,
-        accounName: "sahari",
-    },
-    {
-        bankName: "BFA",
-        accountNumber: 23234532,
-        accounName: "saharo",
-    }
-]
+
+type TBankInfoListProps = {
+    banks: Bank[],
+    onEdit: (bank: Bank) => void;
+    onDelete: (id: string) => void;
+}
 
 
-const BankInfoList = () => {
+const BankInfoList = ({banks, onEdit, onDelete}: TBankInfoListProps) => {
     return (
         <div className="grid grid-cols-3 gap-8">
-        {bankData.map((data,index) => (
-            <div className="bg-white rounded-lg border border-gray-200" key={index}>
+        {banks.map((data,index) => (
+            <div className="bg-white rounded-lg border border-gray-200" key={data._id}>
             <div className="flex justify-between p-5">
                 <div className="flex gap-2 items-center">
                     <div className="bg-blue-50 text-blue-600 rounded w-12 h-12 flex justify-center items-center">
@@ -36,10 +26,10 @@ const BankInfoList = () => {
             </div>    
             <div className="text-gray-500">
                  <button>
-                <FiEdit2 size={30} className="p-1.5 rounded hover:bg-primary cursor-pointer"/>
+                <FiEdit2 size={30} className="p-1.5 rounded hover:bg-primary cursor-pointer" onClick={() => onEdit(data)}/>
                 </button>
                 <button>
-                <FiTrash2 size={30} className="p-1.5 rounded hover:bg-primary cursor-pointer"/>
+                <FiTrash2 size={30} className="p-1.5 rounded hover:bg-primary cursor-pointer" onClick={() => onDelete(data._id)}/>
                 </button>
             </div>
             </div> 
@@ -48,7 +38,7 @@ const BankInfoList = () => {
                 <div className="text-medium">{data.accountNumber}</div>
             </div>
                 <div className="border-t border-gray-200 px-5 py-3">
-                    <span className="opacity-50">Holder: </span>WADIDAW
+                    <span className="opacity-50">Holder: </span>{data.accountName}
                 </div>
             </div>        
         ))}
