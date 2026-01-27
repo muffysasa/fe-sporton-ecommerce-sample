@@ -46,8 +46,8 @@ const CategoryManagement = () => {
                 setIsDeleteModalOpen(false);
                 setCategoryToDeleteId("");
                 } catch(error) {
-                    console.error("Failed to Category product", error);
-                    toast.error("Failed to Category product");
+                    console.error("Failed to delete Category product", error);
+                    toast.error("Failed to delete Category product");
                     
                 }
         };
@@ -85,7 +85,7 @@ const CategoryManagement = () => {
         
         <DeleteModal
         isOpen={isDeleteModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeleteConfirm}
         />
         </div>

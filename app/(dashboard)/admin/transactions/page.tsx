@@ -1,23 +1,22 @@
 "use client";
 
-import Button from "@/app/(landing)/components/ui/button";
-import { FiPlus } from "react-icons/fi";
+
 import TransactionsTable from "../../components/transactions/transactions-table";
 import TransactionsModal from "../../components/transactions/transactions-modal";
 import { useEffect, useState } from "react";
 import { Transaction } from "@/app/types";
-import { getAllTransactions, updateTransaction } from "@/app/services/transaction.services";
+import { getAllTransactions, updateTransaction } from "@/app/services/transaction.service";
 import { toast } from "react-toastify";
 
 const TransactionsManagement = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-    const [transactions, setTrasnsactions] = useState<Transaction[]>([]);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
 
 const fetchTransactions = async () => {
     try {
         const data= await getAllTransactions();
-        setTrasnsactions(data)
+        setTransactions(data)
     }   catch(error) {
         console.error("Failed to fetch transactions", error)
     }
@@ -41,6 +40,7 @@ const fetchTransactions = async () => {
             await updateTransaction(id, formData);
 
             toast.success("Transaction status updated");
+            await fetchTransactions();
         } catch (error) {
             console.error("Failed to update transaction status", error)
             toast.error("Failed to update transaction status");

@@ -26,7 +26,7 @@ const CategoryModal = ({
     onSuccess,
 }: TCategoryModalProps) => {
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const[imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const isEditMode = !!category;

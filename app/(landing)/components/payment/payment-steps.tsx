@@ -8,7 +8,7 @@ import Checkout from "../../checkout/page";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCartStore } from "@/app/hooks/use-cart-store";
-import { transactionCheckout } from "@/app/services/transaction.services";
+import { transactionCheckout } from "@/app/services/transaction.service";
 
 
 const PaymentSteps = () =>{

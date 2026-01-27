@@ -6,14 +6,14 @@ import ProductTable from "../../components/products/product-table";
 import ProductModal from "../../components/products/product-modal";
 import { useEffect, useState } from "react";
 import { Product } from "@/app/types";
-import { deleteProduct, getAllProducts } from "@/app/services/product.services";
+import { deleteProduct, getAllProducts } from "@/app/services/product.service";
 import { toast } from "react-toastify";
 import DeleteModal from "../../components/ui/delete-modal";
 
 const ProductManagement = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [products, setProducts] =useState<Product[]>([]);
-    const [isDeletModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);    
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [productToDeleteId, setProductToDeleteId] = useState("");
 
@@ -21,17 +21,17 @@ const ProductManagement = () => {
         try {
             const data = await getAllProducts();
             if (data) {
-                setProducts(data)
+                setProducts(data);
             }
         } catch(error) {
             console.error("Failed to fetch products", error)
         }
-    }
+    };
 
     const handleEdit = (product: Product) =>{ 
         setSelectedProduct(product);
-        setIsDeleteModalOpen(true);
-    }
+        setIsModalOpen(true);
+    };
 
     const handleDelete = (id:string) => {
         setProductToDeleteId(id);
@@ -62,8 +62,8 @@ const ProductManagement = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        setSelectedProduct(null)
-    }
+        setSelectedProduct(null);
+    };
 
         return (
         <div>
@@ -86,7 +86,7 @@ const ProductManagement = () => {
         isOpen={isModalOpen} 
         onClose={handleCloseModal}/>
 
-        <DeleteModal isOpen={isDeletModalOpen} onClose={() => setIsDeleteModalOpen(false)} onConfirm={handleDeleteConfirm}/>
+        <DeleteModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} onConfirm={handleDeleteConfirm}/>
         </div>
     )
 }

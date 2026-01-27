@@ -3,29 +3,7 @@ import PriceFormatter from "@/app/utils/price-formatter"
 import Image from "next/image"
 import { FiEdit2, FiEye, FiTrash2 } from "react-icons/fi"
 
-const transactionData = [
-    {
-        date: "23/02/2026 19:32",
-        customer: "savannah glora",
-        contact : "+90888272666",
-        total: 300000,
-        status: "pending",        
-    },
-    {
-        date: "23/02/2026 19:32",
-        customer: "bilal rabbah",
-        contact : "+90888272666",
-        total: 300000,
-        status: "rejected",         
-    },
-    {
-        date: "23/02/2026 19:32",
-        customer: "fannyta hilma",
-        contact : "+90888272666",
-        total: 300000,
-        status: "paid",         
-    }
-]
+
 
 type TCategoryTableProps = {
     onViewDetails: (transaction: Transaction) => void;

@@ -4,16 +4,16 @@ import ImageUploadPreview from "../ui/image-upload-preview";
 import { useEffect, useState } from "react";
 import { Category, Product } from "@/app/types";
 import { getAllCategories } from "@/app/services/category.service";
-import { createProduct, updateProduct } from "@/app/services/product.services";
+import { createProduct, updateProduct } from "@/app/services/product.service";
 import { toast } from "react-toastify";
 import { getImageUrl } from "@/app/lib/api";
 
 type TProductModalProps = {
     isOpen: boolean;
     onClose: () => void;
-    onSuccess?:() => void;
-    product: Product| null;
-}
+    onSuccess?: () => void;
+    product?: Product| null;
+};
 
 type ProductFormData ={
     name: string;
@@ -21,13 +21,18 @@ type ProductFormData ={
     stock: number;
     categoryId: string;
     description: string;
-}
+};
 
-const ProductModal = ({isOpen, onClose, onSuccess, product}: TProductModalProps) =>{
+const ProductModal = ({
+    isOpen, 
+    onClose, 
+    onSuccess, 
+    product}: TProductModalProps) => {
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [categories, setCategories] = useState<Category[]>([]);
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const [formData, setFormData] =useState<ProductFormData>({
         name: "",
         price: 0,
@@ -43,14 +48,17 @@ const ProductModal = ({isOpen, onClose, onSuccess, product}: TProductModalProps)
             const data = await getAllCategories();
             setCategories(data)
         } catch(error) {
-            console.error("Failes to fetch categories", error)
+            console.error("Failes to fetch categories", error);
         }
     }
 
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,) => {
+        e: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >,
+        ) => {
         const {id, value} = e.target;
-        setFormData((prev) => ({...prev, [id]:value}));
+        setFormData((prev) => ({...prev, [id]: value}));
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -65,13 +73,13 @@ const ProductModal = ({isOpen, onClose, onSuccess, product}: TProductModalProps)
             data.append("description", formData.description);
 
             if (imageFile) {
-                data.append("image", imageFile)
+                data.append("image", imageFile);
             }
 
             if (isEditMode) {
-                await updateProduct(product._id, data)
+                await updateProduct(product._id, data);
             } else {
-                await createProduct(data)
+                await createProduct(data);
             }
 
             //Reset Form Data
@@ -85,18 +93,21 @@ const ProductModal = ({isOpen, onClose, onSuccess, product}: TProductModalProps)
         setImageFile(null);
         setImagePreview(null);
 
-        toast.success(isEditMode ? "Update Product Successfully" : "Product Created Successfully")
+        toast.success(
+            isEditMode 
+            ? "Update Product Successfully" 
+            : "Product Created Successfully",);
         
         onSuccess?.();
-        onClose?.()
-
+        onClose?.();
         }catch(error){
             console.error(isEditMode ? "Failed to Update Product" : "Failed to Create Product", 
-            error);
-            toast.error(isEditMode ? "Failed to Update Product" : "Failed to Create Product")
+            error,);
+            toast.error(
+                isEditMode ? "Failed to Update Product" : "Failed to Create Product",);
 
         } finally {
-            setIsSubmitting(false)
+            setIsSubmitting(false);
         }
     };
 
@@ -109,7 +120,7 @@ const ProductModal = ({isOpen, onClose, onSuccess, product}: TProductModalProps)
                 categoryId: product.category._id,
                 stock: product.stock
             });
-            setImagePreview(product.imageUrl ? getImageUrl(product.imageUrl): null)
+            setImagePreview(product.imageUrl ? getImageUrl(product.imageUrl): null);
         } else if (isOpen) {
              setFormData({
             name: "",

@@ -11,7 +11,7 @@ const AuthGuard = ({children}: {children: React.ReactNode}) => {
         if (!token) {
             router.push("/admin/login");
         } else {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     }, [router])
 
@@ -24,7 +24,7 @@ const AuthGuard = ({children}: {children: React.ReactNode}) => {
     }
 
 
-    return<>{children}</>
-}
+    return<>{children}</>;
+};
 
 export default AuthGuard;

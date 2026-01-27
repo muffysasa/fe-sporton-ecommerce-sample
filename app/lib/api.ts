@@ -1,17 +1,15 @@
-import { cache } from "react";
-
 export async function fetchAPI<T>(
     endpoint: string,
-    options?: RequestInit
+    options?: RequestInit,
 ): Promise<T> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
         ...options,
         cache: options?.cache || "no-store",
-    })
+    });
 
     if (!res.ok) {
         let errorMessage = `Failed to fetch data from ${endpoint}`;
-        try{
+        try {
             const errorData = await res.json();
             errorMessage = errorData.message || errorData.error || errorMessage;
         }   catch(e) {
@@ -26,8 +24,8 @@ export function getImageUrl(path: string) {
     return `${process.env.NEXT_PUBLIC_API_ROOT}/${path}`;
 }
 export function getAuthHeaders () {
-    const token = localStorage.getitem("token");
+    const token = localStorage.getItem("token");
     return{
-        Authorization: `Bearer $(token)`,
-    }
+        Authorization: `Bearer ${token}`,
+    };
 }

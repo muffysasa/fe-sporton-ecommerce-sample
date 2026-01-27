@@ -11,7 +11,7 @@ type TProductTableProps = {
     onEdit?: (product: Product) => void;
 }
 
-const ProductTable = ({products, onEdit, onDelete}: TProductTableProps) => {
+const ProductTable = ({products, onDelete, onEdit}: TProductTableProps) => {
     return (
         <div className="bg-white rouded-2xl border-gray-200">
             <table className="w-full text-left border-collapse">
@@ -24,9 +24,12 @@ const ProductTable = ({products, onEdit, onDelete}: TProductTableProps) => {
                         <th className="px-6 py-4 font-semibold">Actions</th>
                     </tr>
                 </thead>
-                <tbody className="">{
-                products.map((data, index) =>(
-                    <tr key={data._id} className="border-b border-gray-200 last:border-b-0">
+                <tbody>
+                    {products.map((data, index) =>(
+                    <tr 
+                    key={data._id} 
+                    className="border-b border-gray-200 last:border-b-0"
+                    >
                         <td className="px-6 py-4 font-medium">
                         <div className="flex gap-2 items-center">
                             <div className="aspect-square bg-gray-100 rounded-md">
@@ -47,7 +50,7 @@ const ProductTable = ({products, onEdit, onDelete}: TProductTableProps) => {
                         <td className="px-6 py-4 font-medium">{PriceFormatter(data.price)}</td>
                         <td className="px-6 py-4 font-medium">{data.stock} units</td>
                         <td className="px-3 py-8 items-center flex gap-2 text-gray-600">
-                            <button onClick={() => onEdit?.(data)}>
+                            <button onClick={() => onEdit?.(data)} className="cursor-pointer">
                                 <FiEdit2 size={35} className="p-1.5 rounded hover:bg-primary cursor-pointer"/>
                             </button>
                             <button onClick={() => onDelete?.(data._id)}>

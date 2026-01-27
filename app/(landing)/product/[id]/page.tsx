@@ -1,7 +1,7 @@
 import Image from "next/image";
 import ProductActions from "../../components/product-detail/product-actions";
 import PriceFormatter from "@/app/utils/price-formatter";
-import { getProductDetail } from "@/app/services/product.services";
+import { getProductDetail } from "@/app/services/product.service";
 import { getImageUrl } from "@/app/lib/api";
 
 export type TPageProps = {

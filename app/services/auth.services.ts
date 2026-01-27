@@ -7,11 +7,11 @@ export const login = async (credentials: LoginCredentials): Promise<LoginRespons
       headers:{
         "Content-type": "application/json",
       },
-      body: JSON.stringify(credentials)}) 
+      body: JSON.stringify(credentials)}) ;
     
     if (res.token) {
-        localStorage.setItem("token", res.token)
-        localStorage.setItem("token", JSON.stringify(res.user))
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("token", JSON.stringify(res.user));
 
     }
 
@@ -21,6 +21,6 @@ export const login = async (credentials: LoginCredentials): Promise<LoginRespons
 export const logout = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
-}
+};
 
 

@@ -2,8 +2,6 @@
 
 import Button from "@/app/(landing)/components/ui/button";
 import { FiPlus } from "react-icons/fi";
-import CategoryTable from "../../components/categories/category-table";
-import CategoryModal from "../../components/categories/category-modal";
 import { useEffect, useState } from "react";
 import BankInfoList from "../../components/bank-info/bank-info-list";
 import BankInfoModal from "../../components/bank-info/bank-info-modal";
@@ -59,7 +57,9 @@ const BankInfoManagement = () => {
         }
     }
 
-    useEffect
+        useEffect(() => {
+            fetchBanks();
+        }, []);
 
         return (
         <div>
