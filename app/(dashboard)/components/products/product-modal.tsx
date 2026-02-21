@@ -69,7 +69,7 @@ const ProductModal = ({
             data.append("name", formData.name);
             data.append("price", formData.price.toString());
             data.append("stock", formData.stock.toString());
-            data.append("price", formData.categoryId);
+            data.append("categoryId", formData.categoryId);
             data.append("description", formData.description);
 
             if (imageFile) {
@@ -139,7 +139,7 @@ const ProductModal = ({
     }, [])
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} title={isEditMode ? " Edit Prodcut": "Add New Product"}>
+        <Modal isOpen={isOpen} onClose={onClose} title={isEditMode ? " Edit Product": "Add New Product"}>
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div className="flex gap-7 ">
                 <div className="min-w-[200px]">
