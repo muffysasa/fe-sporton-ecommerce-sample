@@ -33,7 +33,7 @@ export const deleteCategory = async (
     id: string,
 ): Promise<void> => {
     return await fetchAPI<void>(`/categories/${id}`, {
-        method: "DELETES",
+        method: "DELETE",
         headers: {
             ...getAuthHeaders(),
         },

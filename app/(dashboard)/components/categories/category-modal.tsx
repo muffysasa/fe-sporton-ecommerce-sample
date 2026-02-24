@@ -49,6 +49,8 @@ const CategoryModal = ({
                 name: "",
                 description: "",
             });
+            setImageFile(null);
+            setImagePreview(null);
             }
         }, [category, isOpen]);
     
@@ -75,6 +77,7 @@ const CategoryModal = ({
         }
         toast.success(isEditMode ? "Category updated successfully" : "Category created successfully")
 
+        //Reset form
         setFormData({
             name: "",
             description: "",
@@ -119,7 +122,7 @@ const CategoryModal = ({
                 </div>
                 <div className="flex flex-col gap-4 w-full">
                     <label htmlFor="description">Description</label>
-                    <textarea 
+                    <textarea className="border rounded-xl border-gray-300 px-5 py-2"
                     name="description" 
                     id="description" 
                     rows={7} 

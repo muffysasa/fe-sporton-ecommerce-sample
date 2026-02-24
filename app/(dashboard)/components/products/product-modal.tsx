@@ -12,7 +12,7 @@ type TProductModalProps = {
     isOpen: boolean;
     onClose: () => void;
     onSuccess?: () => void;
-    product?: Product| null;
+    product?: Product | null;
 };
 
 type ProductFormData ={
@@ -27,13 +27,13 @@ const ProductModal = ({
     isOpen, 
     onClose, 
     onSuccess, 
-    product}: TProductModalProps) => {
+    product,}: TProductModalProps) => {
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [categories, setCategories] = useState<Category[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const [formData, setFormData] =useState<ProductFormData>({
+    const [formData, setFormData] = useState<ProductFormData>({
         name: "",
         price: 0,
         stock: 0,
@@ -48,9 +48,9 @@ const ProductModal = ({
             const data = await getAllCategories();
             setCategories(data)
         } catch(error) {
-            console.error("Failes to fetch categories", error);
+            console.error("Failed to fetch categories", error);
         }
-    }
+    };
 
     const handleChange = (
         e: React.ChangeEvent<
@@ -59,11 +59,11 @@ const ProductModal = ({
         ) => {
         const {id, value} = e.target;
         setFormData((prev) => ({...prev, [id]: value}));
-    }
+    };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
+    const handleSubmit = async (e?: React.FormEvent) => {
+        e?.preventDefault();
+        setIsSubmitting(true)
         try {
             const data = new FormData();
             data.append("name", formData.name);
@@ -107,7 +107,7 @@ const ProductModal = ({
                 isEditMode ? "Failed to Update Product" : "Failed to Create Product",);
 
         } finally {
-            setIsSubmitting(false);
+            setIsSubmitting(false)
         }
     };
 
@@ -120,7 +120,7 @@ const ProductModal = ({
                 categoryId: product.category._id,
                 stock: product.stock
             });
-            setImagePreview(product.imageUrl ? getImageUrl(product.imageUrl): null);
+            setImagePreview(product.imageUrl ? getImageUrl(product.imageUrl) : null)
         } else if (isOpen) {
              setFormData({
             name: "",
@@ -215,7 +215,7 @@ const ProductModal = ({
                     </textarea>
                 </div>  
                 <Button className="rounded-xl ml-auto mt-8" 
-                onClick={handleSubmit} 
+
                 disabled={isSubmitting}
                 type="submit">
                     {

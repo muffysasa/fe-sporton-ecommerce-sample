@@ -1,8 +1,8 @@
 "use client";
 
 
-import TransactionsTable from "../../components/transactions/transactions-table";
-import TransactionsModal from "../../components/transactions/transactions-modal";
+import TransactionsTable from "../../components/transactions/transaction-table";
+import TransactionsModal from "../../components/transactions/transaction-modal";
 import { useEffect, useState } from "react";
 import { Transaction } from "@/app/types";
 import { getAllTransactions, updateTransaction } from "@/app/services/transaction.service";
